@@ -1,0 +1,24 @@
+# Entornos virtuales
+.venv/
+.venv_py39_backup/
+
+# Archivos temporales de Python
+__pycache__/
+*.py[cod]
+
+# Archivos temporales de pruebas y notebooks
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Configuración local de VS Code
+.vscode/
+
+# Archivos del sistema macOS
+.DS_Store
+
+# Dataset crudo: se descarga desde la fuente indicada en el README
+student_career_success_dataset.csv
+
+
+# Documentos auxiliares locales no necesarios para reproducir el proyecto
+Utilitarios/
