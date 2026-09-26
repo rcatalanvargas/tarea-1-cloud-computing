@@ -1,0 +1,14 @@
+.git
+.gitignore
+
+app/__pycache__/
+*.pyc
+*.pyo
+
+.ipynb_checkpoints/
+
+test/
+
+notebooks/
+
+docs/

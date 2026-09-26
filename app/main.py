@@ -50,13 +50,14 @@ if "Placed" not in MODEL_CLASSES:
 
 class HealthResponse(BaseModel):
     status: str
-
+    loader: bool
 
 class ModelInfoResponse(BaseModel):
     estimator_name: str
     target: str
     classes: list[str]
     input_feature_count: int
+    input_features: list[str]
     scikit_learn_version: str
     test_metrics: dict[str, float]
 
@@ -162,6 +163,7 @@ class PredictionResponse(BaseModel):
     prediction: Literal["Not Placed", "Placed"]
     probability_placed: float = Field(ge=0.0, le=1.0)
     class_probabilities: dict[str, float]
+    version: str
 
 
 class BatchPredictionResponse(BaseModel):
@@ -191,6 +193,7 @@ def build_prediction_response(
             class_probabilities["Placed"]
         ),
         class_probabilities=class_probabilities,
+        version="1.0.0",
     )
 
 
@@ -218,7 +221,7 @@ app = FastAPI(
     tags=["System"],
 )
 def health() -> HealthResponse:
-    return HealthResponse(status="ok")
+    return HealthResponse(status="ok",loader=modelo is not None,)
 
 
 @app.get(
@@ -234,6 +237,7 @@ def model_info() -> ModelInfoResponse:
         input_feature_count=len(
             metadata["input_features"]
         ),
+        input_features=metadata["input_features"],
         scikit_learn_version=(
             metadata["versions"]["scikit-learn"]
         ),
