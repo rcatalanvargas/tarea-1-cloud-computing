@@ -1,3 +1,5 @@
+# url de api productova con google Cloud Run
+https://student-career-success-api-306344551364.southamerica-west1.run.app/
 # Predicción de obtención de empleo de estudiantes
 
 ## Descripción del proyecto
@@ -240,3 +242,91 @@ Tarea_Final_Cloud_Computing/
 El dataset crudo y los entornos virtuales se mantienen fuera del repositorio mediante `.gitignore`.
 
 Para reproducir el entrenamiento, el archivo `student_career_success_dataset.csv` debe descargarse desde la fuente de Kaggle indicada anteriormente y ubicarse en la raíz del proyecto.
+
+## Despliegue en Google Cloud Run
+
+### Proveedor
+
+El servicio fue desplegado utilizando Google Cloud Run en la región:
+
+`South America West 1 (southamerica-west1)`
+
+La aplicación se ejecuta dentro de un contenedor Docker construido a partir
+del Dockerfile incluido en el repositorio.
+
+### Arquitectura de despliegue
+
+FastAPI
+→ Docker
+→ Cloud Build
+→ Artifact Registry
+→ Google Cloud Run
+### Configuración
+
+Se habilitaron los siguientes servicios de Google Cloud:
+
+- Cloud Run
+- Cloud Build
+- Artifact Registry
+
+El despliegue se realizó mediante:
+
+```bash
+gcloud run deploy student-career-success-api \
+    --source . \
+    --region southamerica-west1 \
+    --allow-unauthenticated
+
+### Problema encontrado durante el despliegue en Cloud Run
+
+El primer despliegue falló porque la cuenta de servicio utilizada por
+Cloud Build no tenía permisos suficientes.
+
+Se obtuvo el error:
+
+`PERMISSION_DENIED`: default service account is missing required IAM permissions`
+
+### Solución
+
+Se otorgó el rol Cloud Run Builder a la cuenta de servicio:
+
+`roles/run.builder`
+
+Después de aplicar el permiso, Cloud Build pudo construir la imagen y
+Cloud Run pudo crear correctamente la revisión del servicio.
+
+# Ejemplo de llamada curl 
+
+curl https://student-career-success-api-306344551364.southamerica-west1.run.app/health         
+
+Advertencia de seguridad: riesgo de ejecución de script
+Invoke-WebRequest analiza el contenido de la página web. El código de script de la página web se puede ejecutar cuando 
+se analiza la página.
+      ACCIÓN RECOMENDADA:
+      Usa el modificador -UseBasicParsing para evitar la ejecución de código de script.
+
+      ¿Quieres continuar?
+    
+[S] Sí  [O] Sí a todo  [N] No  [T] No a todo  [U] Suspender  [?] Ayuda (el valor predeterminado es "N"): s
+
+
+StatusCode        : 200
+StatusDescription : OK
+Content           : {"status":"ok","loader":true}
+RawContent        : HTTP/1.1 200 OK
+                    x-cloud-trace-context: 3c968c91101791bab7ab415f3ffa43e1;o=1
+                    Alt-Svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+                    Content-Length: 29
+                    Content-Type: application/json
+                    Date: Sat, 26...
+Forms             : {}
+Headers           : {[x-cloud-trace-context, 3c968c91101791bab7ab415f3ffa43e1;o=1], [Alt-Svc, h3=":443"; 
+                    ma=2592000,h3-29=":443"; ma=2592000], [Content-Length, 29], [Content-Type, application/json]...}
+Images            : {}
+InputFields       : {}
+Links             : {}
+ParsedHtml        : mshtml.HTMLDocumentClass
+RawContentLength  : 29
+
+
+
