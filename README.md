@@ -1,6 +1,10 @@
-# url de api productova con google Cloud Run
-https://student-career-success-api-306344551364.southamerica-west1.run.app/
 # Predicción de obtención de empleo de estudiantes
+
+## API pública
+
+La documentación interactiva del servicio desplegado en Google Cloud Run está disponible en:
+
+[https://student-career-success-api-306344551364.southamerica-west1.run.app/docs](https://student-career-success-api-306344551364.southamerica-west1.run.app/docs)
 
 ## Descripción del proyecto
 
@@ -224,7 +228,12 @@ Tarea_Final_Cloud_Computing/
 │   ├── __init__.py
 │   └── main.py
 ├── docs/
-│   └── resultado_pruebas.txt
+│   ├── Evidencias despliegue continuo.png
+│   ├── error_422_local.pdf
+│   ├── lista_verificacion.md
+│   ├── prediccion_valida_local.pdf
+│   ├── resultado_pruebas.txt
+│   └── swagger_local.pdf
 ├── model/
 │   ├── metadata.json
 │   └── model.pkl
@@ -232,101 +241,90 @@ Tarea_Final_Cloud_Computing/
 │   └── 00_Exploracion_inicial.ipynb
 ├── tests/
 │   └── test_api.py
+├── .dockerignore
 ├── .gitignore
+├── Dockerfile
 ├── Procfile
 ├── README.md
 ├── requirements.txt
 └── runtime.txt
 ```
+La revisión detallada de los requisitos se encuentra en [docs/lista_verificacion.md](docs/lista_verificacion.md).
 
 El dataset crudo y los entornos virtuales se mantienen fuera del repositorio mediante `.gitignore`.
 
 Para reproducir el entrenamiento, el archivo `student_career_success_dataset.csv` debe descargarse desde la fuente de Kaggle indicada anteriormente y ubicarse en la raíz del proyecto.
 
+## Evidencias de ejecución local
+
+- [Documentación Swagger en localhost](docs/swagger_local.pdf).
+- [Predicción válida con respuesta HTTP 200](docs/prediccion_valida_local.pdf).
+- [Validación de entrada con respuesta HTTP 422](docs/error_422_local.pdf).
+- [Resultado de las pruebas automatizadas](docs/resultado_pruebas.txt).
+- [Lista de verificación final](docs/lista_verificacion.md).
+
 ## Despliegue en Google Cloud Run
 
-### Proveedor
+El servicio fue desplegado en Google Cloud Run, en la región `southamerica-west1`, como parte opcional de la tarea.
 
-El servicio fue desplegado utilizando Google Cloud Run en la región:
+### URL pública
 
-`South America West 1 (southamerica-west1)`
+La documentación interactiva de la API está disponible en:
 
-La aplicación se ejecuta dentro de un contenedor Docker construido a partir
-del Dockerfile incluido en el repositorio.
+[https://student-career-success-api-306344551364.southamerica-west1.run.app/docs](https://student-career-success-api-306344551364.southamerica-west1.run.app/docs)
 
 ### Arquitectura de despliegue
 
-FastAPI
-→ Docker
-→ Cloud Build
-→ Artifact Registry
-→ Google Cloud Run
-### Configuración
+El flujo utilizado es:
 
-Se habilitaron los siguientes servicios de Google Cloud:
+```text
+FastAPI → Docker → Cloud Build → Artifact Registry → Google Cloud Run
+```
 
-- Cloud Run
-- Cloud Build
-- Artifact Registry
+El contenedor se construye mediante el `Dockerfile` incluido en el repositorio.
 
-El despliegue se realizó mediante:
+### Servicios utilizados
+
+- Cloud Run.
+- Cloud Build.
+- Artifact Registry.
+
+### Comando de despliegue
 
 ```bash
 gcloud run deploy student-career-success-api \
     --source . \
     --region southamerica-west1 \
     --allow-unauthenticated
+```
 
-### Problema encontrado durante el despliegue en Cloud Run
+### Problema detectado y solución
 
-El primer despliegue falló porque la cuenta de servicio utilizada por
-Cloud Build no tenía permisos suficientes.
+El primer despliegue falló porque la cuenta de servicio utilizada por Cloud Build no tenía permisos suficientes. El error indicaba que faltaban permisos de IAM.
 
-Se obtuvo el error:
+Se otorgó el rol `roles/run.builder` a la cuenta de servicio. Después de aplicar el permiso, Cloud Build pudo construir la imagen y Cloud Run pudo crear correctamente la revisión del servicio.
 
-`PERMISSION_DENIED`: default service account is missing required IAM permissions`
+### Verificación del servicio
 
-### Solución
+El estado de la API puede comprobarse con:
 
-Se otorgó el rol Cloud Run Builder a la cuenta de servicio:
+```bash
+curl -i https://student-career-success-api-306344551364.southamerica-west1.run.app/health
+```
 
-`roles/run.builder`
+La respuesta esperada es un código HTTP `200` y el siguiente cuerpo:
 
-Después de aplicar el permiso, Cloud Build pudo construir la imagen y
-Cloud Run pudo crear correctamente la revisión del servicio.
+```json
+{
+  "status": "ok",
+  "loader": true
+}
+```
 
-# Ejemplo de llamada curl 
+### Despliegue continuo
 
-curl https://student-career-success-api-306344551364.southamerica-west1.run.app/health         
+El repositorio está conectado con Cloud Build. Los cambios integrados en la rama principal activan automáticamente una nueva construcción y el despliegue de una revisión en Cloud Run.
 
-Advertencia de seguridad: riesgo de ejecución de script
-Invoke-WebRequest analiza el contenido de la página web. El código de script de la página web se puede ejecutar cuando 
-se analiza la página.
-      ACCIÓN RECOMENDADA:
-      Usa el modificador -UseBasicParsing para evitar la ejecución de código de script.
+### Evidencia
 
-      ¿Quieres continuar?
-    
-[S] Sí  [O] Sí a todo  [N] No  [T] No a todo  [U] Suspender  [?] Ayuda (el valor predeterminado es "N"): s
-
-
-StatusCode        : 200
-StatusDescription : OK
-Content           : {"status":"ok","loader":true}
-RawContent        : HTTP/1.1 200 OK
-                    x-cloud-trace-context: 3c968c91101791bab7ab415f3ffa43e1;o=1
-                    Alt-Svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
-                    Content-Length: 29
-                    Content-Type: application/json
-                    Date: Sat, 26...
-Forms             : {}
-Headers           : {[x-cloud-trace-context, 3c968c91101791bab7ab415f3ffa43e1;o=1], [Alt-Svc, h3=":443"; 
-                    ma=2592000,h3-29=":443"; ma=2592000], [Content-Length, 29], [Content-Type, application/json]...}
-Images            : {}
-InputFields       : {}
-Links             : {}
-ParsedHtml        : mshtml.HTMLDocumentClass
-RawContentLength  : 29
-
-# prueba de cambio en linea con gcloud 
-validación exitosa
+![Evidencia del despliegue continuo](docs/Evidencias%20despliegue%20continuo.png)
