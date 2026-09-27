@@ -1,7 +1,7 @@
 ============================= test session starts ==============================
-platform darwin -- Python 3.12.12, pytest-8.3.3, pluggy-1.6.0 -- /Users/juanpablohernandezpizarro/iCloud Drive (archivado)/Documents/Documentos - MacBook Pro de Juan (2)/Respaldo JPHP 2024(345,79GB)/Nombres/Juan Pablo Hernández Pizarro/Magister en Data Science/07_Cloud Computing para Data Science_Ahmad Armoush/Tarea_Final_Cloud_Computing/.venv/bin/python
+platform darwin -- Python 3.12.12, pytest-8.3.3, pluggy-1.6.0 -- /Users/juanpablohernandezpizarro/iCloud Drive (archivado)/Documents/Documentos - MacBook Pro de Juan (2)/Respaldo JPHP 2024(345,79GB)/Nombres/Juan Pablo Hernández Pizarro/Magister en Data Science/07_Cloud Computing para Data Science_Ahmad Armoush/Tarea_Final_Cloud_Computing_Revision/.venv/bin/python
 cachedir: .pytest_cache
-rootdir: /Users/juanpablohernandezpizarro/iCloud Drive (archivado)/Documents/Documentos - MacBook Pro de Juan (2)/Respaldo JPHP 2024(345,79GB)/Nombres/Juan Pablo Hernández Pizarro/Magister en Data Science/07_Cloud Computing para Data Science_Ahmad Armoush/Tarea_Final_Cloud_Computing
+rootdir: /Users/juanpablohernandezpizarro/iCloud Drive (archivado)/Documents/Documentos - MacBook Pro de Juan (2)/Respaldo JPHP 2024(345,79GB)/Nombres/Juan Pablo Hernández Pizarro/Magister en Data Science/07_Cloud Computing para Data Science_Ahmad Armoush/Tarea_Final_Cloud_Computing_Revision
 plugins: anyio-4.15.1
 collecting ... collected 5 items
 
@@ -13,8 +13,8 @@ tests/test_api.py::test_predict_batch PASSED                             [100%]
 
 =============================== warnings summary ===============================
 .venv/lib/python3.12/site-packages/starlette/testclient.py:40
-  /Users/juanpablohernandezpizarro/iCloud Drive (archivado)/Documents/Documentos - MacBook Pro de Juan (2)/Respaldo JPHP 2024(345,79GB)/Nombres/Juan Pablo Hernández Pizarro/Magister en Data Science/07_Cloud Computing para Data Science_Ahmad Armoush/Tarea_Final_Cloud_Computing/.venv/lib/python3.12/site-packages/starlette/testclient.py:40: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+  /Users/juanpablohernandezpizarro/iCloud Drive (archivado)/Documents/Documentos - MacBook Pro de Juan (2)/Respaldo JPHP 2024(345,79GB)/Nombres/Juan Pablo Hernández Pizarro/Magister en Data Science/07_Cloud Computing para Data Science_Ahmad Armoush/Tarea_Final_Cloud_Computing_Revision/.venv/lib/python3.12/site-packages/starlette/testclient.py:40: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
     _PortalFactoryType = typing.Callable[[], typing.ContextManager[anyio.abc.BlockingPortal]]
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-========================= 5 passed, 1 warning in 0.92s =========================
+========================= 5 passed, 1 warning in 1.14s =========================
