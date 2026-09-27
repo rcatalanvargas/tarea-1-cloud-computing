@@ -82,8 +82,8 @@ Esta lista registra el estado verificable de los requisitos de la Tarea Final de
 - [x] El historial conserva la contribución de ambos integrantes.
 - [x] El repositorio contiene código, modelo, metadatos, pruebas y documentación.
 - [x] El README incluye instrucciones de reproducción.
-- [ ] Confirmar el estado limpio del repositorio después del commit final.
-- [ ] Integrar la rama de revisión en `main`.
+- [x] Confirmar el estado limpio del repositorio después del commit final.
+- [x] Integrar la rama de revisión en `main`.
 
 ## Despliegue opcional en la nube
 
@@ -92,7 +92,7 @@ Esta lista registra el estado verificable de los requisitos de la Tarea Final de
 - [x] Los endpoints públicos fueron comprobados.
 - [x] El repositorio está conectado con un flujo de despliegue continuo.
 - [x] Existe evidencia del despliegue en `docs/Evidencias despliegue continuo.png`.
-- [ ] Verificar nuevamente el servicio público después de integrar los cambios finales.
+- [x] Verificar nuevamente el servicio público después de integrar los cambios finales.
 
 ## Resultado de métricas en prueba
 
